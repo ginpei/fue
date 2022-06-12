@@ -4,5 +4,5 @@ export const Container = styled.div`
   box-sizing: border-box;
   margin-inline: auto;
   padding-inline: 1rem;
-  width: 60rem;
+  width: min(100%, 60rem);
 `;
