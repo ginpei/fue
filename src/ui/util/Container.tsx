@@ -1,11 +1,8 @@
-export interface ContainerProps {
-  children: React.ReactNode;
-}
+import styled from "styled-components";
 
-export function Container({ children }: ContainerProps): JSX.Element {
-  return (
-    <div className="Container">
-      {children}
-    </div>
-  );
-}
+export const Container = styled.div`
+  box-sizing: border-box;
+  margin-inline: auto;
+  padding-inline: 1rem;
+  width: 60rem;
+`;
