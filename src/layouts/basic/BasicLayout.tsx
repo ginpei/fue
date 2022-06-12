@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Container } from "../../ui/util/Container";
+import { VStack } from '../../ui/util/VStack';
 import { BasicNavBar } from './BasicNavBar';
 
 export interface BasicLayoutProps {
@@ -19,8 +20,12 @@ export function BasicLayout({ children, description, name, title }: BasicLayoutP
         )}
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <BasicNavBar />
-      <Container>{children}</Container>
+      <VStack>
+        <BasicNavBar />
+        <Container>
+          <VStack>{children}</VStack>
+        </Container>
+      </VStack>
     </div>
   );
 }
