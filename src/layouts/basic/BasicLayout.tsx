@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import styled from 'styled-components';
 import { Container } from "../../ui/util/Container";
 import { VStack } from '../../ui/util/VStack';
 import { BasicFooter } from './BasicFooter';
@@ -23,11 +24,17 @@ export function BasicLayout({ children, description, name, title }: BasicLayoutP
       </Head>
       <VStack>
         <BasicNavBar />
-        <Container>
-          <VStack>{children}</VStack>
-        </Container>
+        <Main>
+          <Container>
+            <VStack>{children}</VStack>
+          </Container>
+        </Main>
         <BasicFooter />
       </VStack>
     </div>
   );
 }
+
+const Main = styled.div`
+  min-height: 50vh;
+`;
