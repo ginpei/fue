@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { Container } from "../../ui/util/Container";
+import { BasicNavBar } from './BasicNavBar';
 
 export interface BasicLayoutProps {
   children: React.ReactNode;
@@ -12,12 +13,13 @@ export function BasicLayout({ children, description, name, title }: BasicLayoutP
   return (
     <div className={`BasicLayout ${name}`}>
       <Head>
-        <title>{title}</title>
+        <title>{title} | Fue</title>
         {description && (
           <meta name="description" content={description} />
         )}
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <BasicNavBar />
       <Container>{children}</Container>
     </div>
   );
