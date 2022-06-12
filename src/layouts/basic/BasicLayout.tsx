@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { Container } from "../../ui/util/Container";
 import { VStack } from '../../ui/util/VStack';
+import { BasicFooter } from './BasicFooter';
 import { BasicNavBar } from './BasicNavBar';
 
 export interface BasicLayoutProps {
@@ -25,6 +26,7 @@ export function BasicLayout({ children, description, name, title }: BasicLayoutP
         <Container>
           <VStack>{children}</VStack>
         </Container>
+        <BasicFooter />
       </VStack>
     </div>
   );
