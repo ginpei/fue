@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Container } from "../ui/util/Container";
+import { Container } from "../../ui/util/Container";
 
 export interface BasicLayoutProps {
   children: React.ReactNode;
