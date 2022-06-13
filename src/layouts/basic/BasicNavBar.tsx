@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { homePagePath } from "../../pages/home/homePageMeta";
+import { loginPagePath } from "../../pages/login/loginPageMeta";
 import { Container } from "../../ui/util/Container";
 import { BasicNavBarLink } from "./BasicNavBarLink";
 
@@ -28,7 +29,3 @@ const Inner = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-function loginPagePath() {
-  return "#TODO";
-}
