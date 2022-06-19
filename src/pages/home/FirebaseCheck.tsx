@@ -1,6 +1,5 @@
-import { signOut, User } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { useCurrentUser } from "../../dataProviders/currentUser";
 import { VStack } from "../../ui/util/VStack";
 
 export interface FirebaseCheckProps {
@@ -37,15 +36,4 @@ export function FirebaseCheck(): JSX.Element {
       )}
     </VStack>
   );
-}
-
-function useCurrentUser(): User | null {
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    const auth = getAuth();
-    return onAuthStateChanged(auth, (newUser) => setUser(newUser));
-  }, []);
-
-  return user;
 }
