@@ -1,40 +1,19 @@
-import Head from 'next/head'
-import styled from 'styled-components';
-import { Container } from "../../ui/util/Container";
-import { VStack } from '../../ui/util/VStack';
-import { BasicFooter } from './BasicFooter';
-import { BasicNavBar } from './BasicNavBar';
+import { useCurrentUser } from '../../dataProviders/currentUser';
+import { homePagePath } from '../../pages/home/homePageMeta';
+import { loginPagePath } from '../../pages/login/loginPageMeta';
+import { BasicNavBarLink } from './BasicNavBarLink';
+import { StraightLayout, StraightLayoutProps } from './StraightLayout';
 
-export interface BasicLayoutProps {
-  children: React.ReactNode;
-  description?: string;
-  name: string;
-  title: string;
+export interface BasicLayoutProps extends StraightLayoutProps {
 }
 
-export function BasicLayout({ children, description, name, title }: BasicLayoutProps): JSX.Element {
+export function BasicLayout(props: BasicLayoutProps): JSX.Element {
+  const currentUser = useCurrentUser();
+  const UserMenu = currentUser
+    ? <BasicNavBarLink href={homePagePath()}>Home</BasicNavBarLink>
+    : <BasicNavBarLink href={loginPagePath()}>Login</BasicNavBarLink>
+
   return (
-    <div className={`BasicLayout ${name}`}>
-      <Head>
-        <title>{title} | Fue</title>
-        {description && (
-          <meta name="description" content={description} />
-        )}
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <VStack>
-        <BasicNavBar />
-        <Main>
-          <Container>
-            <VStack>{children}</VStack>
-          </Container>
-        </Main>
-        <BasicFooter />
-      </VStack>
-    </div>
+    <StraightLayout {...props} userMenu={UserMenu} />
   );
 }
-
-const Main = styled.div`
-  min-height: 50vh;
-`;

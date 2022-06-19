@@ -5,15 +5,16 @@ import { Container } from "../../ui/util/Container";
 import { BasicNavBarLink } from "./BasicNavBarLink";
 
 export interface BasicNavBarProps {
+  userMenu?: React.ReactNode;
 }
 
-export function BasicNavBar(): JSX.Element {
+export function BasicNavBar({ userMenu }: BasicNavBarProps): JSX.Element {
   return (
     <Outer className="BasicNavBar">
       <Container>
         <Inner>
           <BasicNavBarLink href={homePagePath()}>🥳 Fue</BasicNavBarLink>
-          <BasicNavBarLink href={loginPagePath()}>Login</BasicNavBarLink>
+          {userMenu && userMenu}
         </Inner>
       </Container>
     </Outer>
