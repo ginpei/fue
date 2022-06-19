@@ -1,5 +1,6 @@
-import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { homePagePath } from "../home/homePageMeta";
 import { LoginForm } from "./LoginForm";
 
 export interface LoginPageProps {
@@ -7,10 +8,16 @@ export interface LoginPageProps {
 }
 
 export function LoginPage(): JSX.Element {
+  const router = useRouter();
+
+  const onLoggedIn = () => {
+    router.push(homePagePath());
+  };
+
   return (
     <BasicLayout name="LoginPage" title="Login">
       <h1>Login</h1>
-      <LoginForm />
+      <LoginForm onLoggedIn={onLoggedIn} />
     </BasicLayout>
   );
 }

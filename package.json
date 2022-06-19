@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "fbe": "firebase emulators:start --import=.firebase-export --export-on-exit",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
