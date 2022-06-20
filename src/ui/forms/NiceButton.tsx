@@ -10,3 +10,9 @@ export const PrimaryButton = styled(NiceButton)`
   color: white;
   background-color: #036;
 `;
+
+export const DangerButton = styled(NiceButton)`
+  color: tomato;
+  background-color: #fff9f9;
+  border-color: tomato;
+`;

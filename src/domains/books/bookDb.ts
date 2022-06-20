@@ -1,4 +1,4 @@
-import { addDoc, collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, CollectionReference, deleteDoc, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { Book, createBook } from "./Book";
 
 export async function saveBook(book: Book, db = getFirestore()): Promise<string> {
@@ -36,6 +36,11 @@ export async function loadBook(bookId: string, db = getFirestore()): Promise<Boo
 
   const book = toBook(ss);
   return book;
+}
+
+export async function deleteBook(bookId: string, db = getFirestore()): Promise<void> {
+  const ref = getBookDoc(db, bookId);
+  await deleteDoc(ref);
 }
 
 function getBookCollection(db: Firestore): CollectionReference {

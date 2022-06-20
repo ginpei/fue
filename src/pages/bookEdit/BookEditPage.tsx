@@ -3,13 +3,15 @@ import { useState } from "react";
 import { working } from "../../data/working";
 import { useCurrentUser } from "../../dataProviders/currentUser";
 import { Book } from "../../domains/books/Book";
-import { saveBook } from "../../domains/books/bookDb";
+import { deleteBook, saveBook } from "../../domains/books/bookDb";
 import { BookForm } from "../../domains/books/BookForm";
 import { useBook } from "../../domains/books/bookHooks";
 import { toError } from "../../functions/errors";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { DangerButton } from "../../ui/forms/NiceButton";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
 import { bookViewPagePath } from "../bookView/bookViewPageMeta";
+import { dashboardPagePath } from "../dashboard/dashboardPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
 
@@ -59,6 +61,23 @@ function BookEditPageContent({ initialBook }: BookEditPageContentProps): JSX.Ele
     }
   };
 
+  const onDeleteClick = async () => {
+    const ok = window.confirm("Delete?");
+    if (!ok) {
+      return;
+    }
+
+    try {
+      setSavingError(null);
+      setSaving(true);
+      await deleteBook(book.id);
+      router.push(dashboardPagePath())
+    } catch (error) {
+      setSavingError(toError(error));
+      setSaving(false);
+    }
+  };
+
   return (
     <BasicLayout name="BookEditPageContent" title={book.title}>
       <h1>Edit {book.title}</h1>
@@ -69,6 +88,10 @@ function BookEditPageContent({ initialBook }: BookEditPageContentProps): JSX.Ele
         onChange={onChange}
         onSubmit={onSubmit}
       />
+      <h2>Danger zone</h2>
+      <DangerButton disabled={saving} onClick={onDeleteClick}>
+        Delete
+      </DangerButton>
     </BasicLayout>
   );
 };
