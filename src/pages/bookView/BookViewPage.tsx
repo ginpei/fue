@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { working } from "../../data/working";
+import { useBook } from "../../domains/books/bookHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 
 export interface BookViewPgeProps {
@@ -7,14 +8,23 @@ export interface BookViewPgeProps {
 
 export function BookViewPge(): JSX.Element {
   const bookId = useRouterBookId();
+  const book = useBook(bookId);
 
-  if (bookId === working) {
+  if (bookId === working || book === working) {
     return <></>;
   }
 
+  if (!book) {
+    return (
+      <BasicLayout name="NotFound" title="Not found">
+        <h1>Not found</h1>
+      </BasicLayout>
+    );
+  }
+
   return (
-    <BasicLayout name="BookViewPge" title="Books">
-      BookViewPge #{bookId}
+    <BasicLayout name="BookViewPge" title={book.title}>
+      <h1>{book.title}</h1>
     </BasicLayout>
   );
 }
