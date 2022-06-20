@@ -7,10 +7,10 @@ import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
 
-export interface BookViewPgeProps {
+export interface BookViewPageProps {
 }
 
-export function BookViewPge(): JSX.Element {
+export function BookViewPage(): JSX.Element {
   const bookId = useRouterBookId();
   const book = useBook(bookId);
 
@@ -23,7 +23,7 @@ export function BookViewPge(): JSX.Element {
   }
 
   return (
-    <BasicLayout name="BookViewPge" title={book.title}>
+    <BasicLayout name="BookViewPage" title={book.title}>
       <h1>{book.title}</h1>
       <p>
         <Link href={bookEditPagePath(book.id)}>Edit</Link>

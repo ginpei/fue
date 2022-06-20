@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
-import { BookViewPge } from '../../../../src/pages/bookView/BookViewPage'
+import { BookViewPage } from '../../../../src/pages/bookView/BookViewPage'
 
 const Page: NextPage = () => {
-  return <BookViewPge />
+  return <BookViewPage />
 }
 
 export default Page

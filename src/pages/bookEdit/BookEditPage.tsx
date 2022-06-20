@@ -13,7 +13,7 @@ import { bookViewPagePath } from "../bookView/bookViewPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
 
-interface BookEditPgeContentProps {
+interface BookEditPageContentProps {
   initialBook: Book;
 }
 
@@ -30,11 +30,11 @@ export function BookEditPage(): JSX.Element {
   }
 
   return (
-    <BookEditPgeContent initialBook={book} />
+    <BookEditPageContent initialBook={book} />
   );
 }
 
-function BookEditPgeContent({ initialBook }: BookEditPgeContentProps): JSX.Element {
+function BookEditPageContent({ initialBook }: BookEditPageContentProps): JSX.Element {
   const router = useRouter();
   const user = useCurrentUser();
   const [book, setBook] = useState(initialBook);

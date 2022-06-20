@@ -8,12 +8,12 @@ import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
 import { bookViewPagePath } from "../bookView/bookViewPageMeta";
 
-export interface BookCreatePgeProps {
+export interface BookCreatePageProps {
 }
 
 const emptyBook = createBook();
 
-export function BookCreatePge(): JSX.Element {
+export function BookCreatePage(): JSX.Element {
   const router = useRouter();
   const [book, setBook] = useState(emptyBook);
   const [saving, setSaving] = useState(false);
@@ -31,7 +31,7 @@ export function BookCreatePge(): JSX.Element {
   };
 
   return (
-    <BasicLayout name="BookCreatePge" title="New book">
+    <BasicLayout name="BookCreatePage" title="New book">
       <h1>New book</h1>
       {saveError && <ErrorMessage error={saveError} />}
       <BookForm
