@@ -19,7 +19,7 @@ export async function saveBook(book: Book, db = getFirestore()): Promise<string>
 export async function loadBook(bookId: string, db = getFirestore()): Promise<Book | null> {
   const ref = getBookDoc(db, bookId);
   const ss = await getDoc(ref);
-  if (!ss.exists) {
+  if (!ss.exists()) {
     return null;
   }
 
