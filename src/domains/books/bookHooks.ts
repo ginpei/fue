@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { working } from "../../data/working";
 import { Book } from "./Book";
-import { loadBook } from "./BookDb";
+import { loadBook, loadUserBooks } from "./BookDb";
 
 export function useBook(bookId: string | working): Book | null | working {
   const [book, setBook] = useState<Book | null | working>(working);
@@ -18,4 +18,26 @@ export function useBook(bookId: string | working): Book | null | working {
   }, [bookId]);
 
   return book;
+}
+
+export function useUserBooks(userId: string | undefined | working): Book[] | working {
+  const [books, setBooks] = useState<Book[] | working>(working);
+
+  useEffect(() => {
+    if (userId === working) {
+      setBooks(working);
+      return;
+    }
+
+    if (userId === undefined) {
+      setBooks([]);
+      return;
+    }
+
+    loadUserBooks(userId).then((newBook) => {
+      setBooks(newBook);
+    });
+  }, [userId]);
+
+  return books;
 }
