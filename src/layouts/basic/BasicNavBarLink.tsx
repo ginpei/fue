@@ -18,6 +18,7 @@ const A = styled.a`
   text-decoration: none;
 
   &:hover {
+    color: inherit;
     text-decoration: underline;
   }
 `;
