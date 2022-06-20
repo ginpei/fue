@@ -2,7 +2,8 @@ import {logger, Request, Response} from "firebase-functions/v1";
 import {onRequest} from "firebase-functions/v1/https";
 import {createMessage, Message} from "../../../src/domains/messages/Message";
 import {getFirestore} from "../firebase";
-import {buildErrorLogContent, HttpError} from "../tools/httpError";
+import {buildErrorLogContent} from "../tools/errors";
+import {HttpError} from "../tools/httpError";
 import {getRequestBody} from "../tools/request";
 
 export const postMessage = onRequest(async (req, res) => {
