@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Container } from "../../ui/util/Container";
 import { VStack } from '../../ui/util/VStack';
 import { BasicFooter } from './BasicFooter';
+import { BasicHead } from './BasicHead';
 import { BasicNavBar } from './BasicNavBar';
 
 export interface StraightLayoutProps {
@@ -16,13 +17,7 @@ export interface StraightLayoutProps {
 export function StraightLayout({ children, description, name, title, userMenu }: StraightLayoutProps): JSX.Element {
   return (
     <div className={`StraightLayout ${name}`}>
-      <Head>
-        <title>{title} | Fue</title>
-        {description && (
-          <meta name="description" content={description} />
-        )}
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <BasicHead description={description} title={title} />
       <VStack>
         <BasicNavBar userMenu={userMenu} />
         <Main>

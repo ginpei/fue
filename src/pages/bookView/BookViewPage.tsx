@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { working } from "../../data/working";
 import { useBook } from "../../domains/books/bookHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
 
 export interface BookViewPgeProps {
@@ -12,7 +13,7 @@ export function BookViewPge(): JSX.Element {
   const book = useBook(bookId);
 
   if (bookId === working || book === working) {
-    return <></>;
+    return <LoadingPage />;
   }
 
   if (!book) {
