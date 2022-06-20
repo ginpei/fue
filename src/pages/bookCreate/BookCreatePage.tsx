@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { working } from "../../data/working";
+import { useCurrentUser } from "../../dataProviders/currentUser";
 import { BookCallback, createBook } from "../../domains/books/Book";
 import { saveBook } from "../../domains/books/bookDb";
 import { BookForm } from "../../domains/books/BookForm";
@@ -15,14 +17,19 @@ const emptyBook = createBook();
 
 export function BookCreatePage(): JSX.Element {
   const router = useRouter();
+  const user = useCurrentUser();
   const [book, setBook] = useState(emptyBook);
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<Error | null>(null);
 
   const onBookSubmit: BookCallback = async () => {
+    if (user === working || user === null) {
+      throw new Error("user required");
+    }
+
     try {
       setSaving(true);
-      const bookId = await saveBook(book);
+      const bookId = await saveBook({ ...book, userId: user.uid });
       router.push(bookViewPagePath(bookId));
     } catch (error) {
       setSaveError(toError(error));
