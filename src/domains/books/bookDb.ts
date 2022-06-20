@@ -43,12 +43,12 @@ export async function deleteBook(bookId: string, db = getFirestore()): Promise<v
   await deleteDoc(ref);
 }
 
-function getBookCollection(db: Firestore): CollectionReference {
+export function getBookCollection(db: Firestore): CollectionReference {
   const coll = collection(db, "books");
   return coll;
 }
 
-function getBookDoc(db: Firestore, bookId: string): DocumentReference {
+export function getBookDoc(db: Firestore, bookId: string): DocumentReference {
   const coll = getBookCollection(db);
   const ref = doc(coll, bookId);
   return ref;

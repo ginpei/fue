@@ -13,6 +13,11 @@ service cloud.firestore {
       allow delete: if isCurrentUserId(resource.data.userId);
     }
 
+    match /books/{bookId}/messages/{messageId} {
+      // TODO
+      allow read: if true;
+    }
+
     function isCurrentUserId(userId) {
       return userId == request.auth.uid;
     }
