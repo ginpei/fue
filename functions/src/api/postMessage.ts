@@ -1,3 +1,4 @@
+import {FieldValue, Timestamp} from "firebase-admin/firestore";
 import {logger, Request, Response} from "firebase-functions/v1";
 import {onRequest} from "firebase-functions/v1/https";
 import {createMessage, Message} from "../../../src/domains/messages/Message";
@@ -38,10 +39,21 @@ async function post(req: Request, res: Response) {
   // TODO collection
   const db = getFirestore();
   const coll = db.collection("api");
-  const ref = await coll.add(message);
+  const ref = await coll.add({
+    ...message,
+    createdAt: FieldValue.serverTimestamp(),
+    updatedAt: FieldValue.serverTimestamp(),
+  });
 
+  // TODO converter
   const ss = await ref.get();
-  const storedData = {...ss.data(), id: ss.id};
+  const data = ss.data()!;
+  const storedData = {
+    ...data,
+    id: ss.id,
+    createdAt: (data.updatedAt as Timestamp).toMillis(),
+    updatedAt: (data.updatedAt as Timestamp).toMillis(),
+  };
 
   res.json(storedData);
 }
