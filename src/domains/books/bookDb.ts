@@ -1,4 +1,4 @@
-import { addDoc, collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, getFirestore, query, setDoc } from "firebase/firestore";
+import { addDoc, collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
 import { Book, createBook } from "./Book";
 
 export async function saveBook(book: Book, db = getFirestore()): Promise<string> {
@@ -19,7 +19,7 @@ export async function saveBook(book: Book, db = getFirestore()): Promise<string>
 export async function loadUserBooks(userId: string): Promise<Book[]> {
   const db = getFirestore();
   const coll = getBookCollection(db);
-  const q = query(coll, /*where("userId", "==", userId)*/);
+  const q = query(coll, where("userId", "==", userId));
   const ss = await getDocs(q);
 
   const books = ss.docs.map((v) => toBook(v));
