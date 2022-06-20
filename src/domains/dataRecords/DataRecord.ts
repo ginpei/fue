@@ -4,7 +4,7 @@ export interface DataRecord {
   updatedAt: number;
 }
 
-export function createDataRecord(init?: DataRecord): DataRecord {
+export function createDataRecord(init?: Partial<DataRecord>): DataRecord {
   return {
     createdAt: init?.createdAt ?? 0,
     id: init?.id ?? "",
