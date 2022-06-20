@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { BookCreatePge } from '../../../../src/pages/bookCreate/BookCreatePge'
+import { BookCreatePge } from '../../../../src/pages/bookCreate/BookCreatePage'
 
 const Page: NextPage = () => {
   return <BookCreatePge />
