@@ -34,7 +34,7 @@ export async function loadBook(bookId: string, db = getFirestore()): Promise<Boo
     return null;
   }
 
-  const book = createBook(ss.data() as Book);
+  const book = toBook(ss);
   return book;
 }
 

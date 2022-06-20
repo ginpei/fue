@@ -1,7 +1,9 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { working } from "../../data/working";
 import { useBook } from "../../domains/books/bookHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
 
@@ -23,6 +25,9 @@ export function BookViewPge(): JSX.Element {
   return (
     <BasicLayout name="BookViewPge" title={book.title}>
       <h1>{book.title}</h1>
+      <p>
+        <Link href={bookEditPagePath(book.id)}>Edit</Link>
+      </p>
     </BasicLayout>
   );
 }
