@@ -1,5 +1,4 @@
-import { QuerySnapshot } from "@google-cloud/firestore";
-import { addDoc, collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, getFirestore, query, setDoc, where } from "firebase/firestore";
+import { addDoc, collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDoc, getDocs, getFirestore, query, setDoc } from "firebase/firestore";
 import { Book, createBook } from "./Book";
 
 export async function saveBook(book: Book, db = getFirestore()): Promise<string> {
