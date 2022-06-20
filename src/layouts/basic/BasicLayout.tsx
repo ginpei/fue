@@ -1,5 +1,6 @@
 import { working } from '../../data/working';
 import { useCurrentUser } from '../../dataProviders/currentUser';
+import { LoadingPage } from '../../pages/loading/LoadingPage';
 import { loginPagePath } from '../../pages/login/loginPageMeta';
 import { BasicNavBarLink } from './BasicNavBarLink';
 import { BasicUserMenu } from './BasicUserMenu';
@@ -10,11 +11,14 @@ export interface BasicLayoutProps extends StraightLayoutProps {
 
 export function BasicLayout(props: BasicLayoutProps): JSX.Element {
   const currentUser = useCurrentUser();
-  const userMenu = currentUser === working
-    ? <></>
-    : currentUser
-      ? <BasicUserMenu />
-      : <BasicNavBarLink href={loginPagePath()}>Login</BasicNavBarLink>
+
+  if (currentUser === working) {
+    return <LoadingPage />;
+  }
+
+  const userMenu = currentUser
+    ? <BasicUserMenu />
+    : <BasicNavBarLink href={loginPagePath()}>Login</BasicNavBarLink>
 
   return (
     <StraightLayout {...props} userMenu={userMenu} />
