@@ -2,7 +2,7 @@ import {logger, Request, Response} from "firebase-functions/v1";
 import {onRequest} from "firebase-functions/v1/https";
 import {createMessage, Message} from "../../../src/domains/messages/Message";
 import {getFirestore} from "../firebase";
-import {HttpError} from "../tools/httpError";
+import {buildErrorLogContent, HttpError} from "../tools/httpError";
 import {getRequestBody} from "../tools/request";
 
 export const postMessage = onRequest(async (req, res) => {
@@ -16,39 +16,11 @@ export const postMessage = onRequest(async (req, res) => {
 
     throw new HttpError(404, `Unsupported method: ${req.method}`);
   } catch (error) {
-    if (error instanceof HttpError) {
-      logger.error({
-        error: {
-          code: error.code,
-          message: error.message,
-          stack: error.stack,
-        },
-      });
-
-      res.sendStatus(error.code);
-      res.end();
-
-      return;
-    } else if (error instanceof Error) {
-      logger.error({
-        error: {
-          message: error.message,
-          stack: error.stack,
-        },
-      });
-
-      res.sendStatus(500);
-      res.end();
-
-      return;
-    }
-
-    logger.error({
-      error: String(error),
-    });
-
-    res.sendStatus(500);
+    const statusCode = error instanceof HttpError ? error.code : 500;
+    res.sendStatus(statusCode);
     res.end();
+
+    logger.error(buildErrorLogContent(error));
   }
 });
 
