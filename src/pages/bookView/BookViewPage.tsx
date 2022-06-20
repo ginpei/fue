@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { working } from "../../data/working";
 import { useBook } from "../../domains/books/bookHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { NotFoundPage } from "../notFound/NotFoundPage";
 
 export interface BookViewPgeProps {
 }
@@ -15,11 +16,7 @@ export function BookViewPge(): JSX.Element {
   }
 
   if (!book) {
-    return (
-      <BasicLayout name="NotFound" title="Not found">
-        <h1>Not found</h1>
-      </BasicLayout>
-    );
+    return <NotFoundPage />;
   }
 
   return (
