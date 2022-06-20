@@ -6,6 +6,8 @@ import {HttpError} from "../tools/httpError";
 import {getRequestBody} from "../tools/request";
 
 export const postMessage = onRequest(async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*");
+
   try {
     if (req.method === "POST") {
       post(req, res);
@@ -68,6 +70,5 @@ async function post(req: Request, res: Response) {
   const ss = await ref.get();
   const storedData = {...ss.data(), id: ss.id};
 
-  // TODO CORS
   res.json(storedData);
 }
