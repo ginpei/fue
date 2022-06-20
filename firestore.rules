@@ -7,7 +7,11 @@ service cloud.firestore {
     // }
 
     match /books/{bookId} {
-      allow read: if resource.data.userId == request.auth.uid;
+      allow read: if isCurrentUserId(resource.data.userId);
+    }
+
+    function isCurrentUserId(userId) {
+      return userId == request.auth.uid;
     }
   }
 }
