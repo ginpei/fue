@@ -14,12 +14,15 @@ service cloud.firestore {
     }
 
     match /books/{bookId}/messages/{messageId} {
-      // TODO
-      allow read: if true;
+      allow read: if isCurrentUserId(getBook(bookId).data.userId);
     }
 
     function isCurrentUserId(userId) {
       return userId == request.auth.uid;
+    }
+
+    function getBook(bookId) {
+      return get(/databases/$(database)/documents/books/$(bookId));
     }
   }
 }
