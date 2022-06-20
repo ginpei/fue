@@ -8,6 +8,9 @@ service cloud.firestore {
 
     match /books/{bookId} {
       allow read: if isCurrentUserId(resource.data.userId);
+      allow create: if isCurrentUserId(request.resource.data.userId);
+      allow update: if isCurrentUserId(resource.data.userId) && isCurrentUserId(request.resource.data.userId);
+      allow delete: if isCurrentUserId(resource.data.userId);
     }
 
     function isCurrentUserId(userId) {
