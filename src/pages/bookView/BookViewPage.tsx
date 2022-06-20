@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { working } from "../../data/working";
 import { useBook } from "../../domains/books/bookHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { LiningText } from "../../ui/util/LiningText";
 import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
@@ -28,6 +29,9 @@ export function BookViewPage(): JSX.Element {
       <p>
         <Link href={bookEditPagePath(book.id)}>Edit</Link>
       </p>
+      <LiningText>
+        {book.description ? book.description : <small>(No description)</small>}
+      </LiningText>
     </BasicLayout>
   );
 }

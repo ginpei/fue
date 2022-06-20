@@ -2,6 +2,7 @@ import { ChangeEventHandler, FormEventHandler } from "react";
 import { FieldSet } from "../../ui/forms/FieldSet";
 import { InputField } from "../../ui/forms/InputField";
 import { PrimaryButton } from "../../ui/forms/NiceButton";
+import { TextField } from "../../ui/forms/TextField";
 import { VStack } from "../../ui/util/VStack";
 import { Book, BookCallback } from "./Book";
 
@@ -18,10 +19,12 @@ export function BookForm({ book, disabled, onChange, onSubmit }: BookFormProps):
     onSubmit(book);
   };
 
-  const onInputChange: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const onInputChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
     const { name, value } = event.currentTarget;
     if (name === "title") {
       onChange({ ...book, title: value });
+    } else if (name === "description") {
+      onChange({ ...book, description: value });
     } else {
       throw new Error(`Unknown input name: ${name || "(empty)"}`);
     }
@@ -37,6 +40,12 @@ export function BookForm({ book, disabled, onChange, onSubmit }: BookFormProps):
             onChange={onInputChange}
             required
             value={book.title}
+          />
+          <TextField
+            label="Description"
+            name="description"
+            onChange={onInputChange}
+            value={book.description}
           />
           <PrimaryButton>OK</PrimaryButton>
         </VStack>
