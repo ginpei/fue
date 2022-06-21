@@ -1,4 +1,5 @@
 import { createDataRecord, DataRecord } from "../dataRecords/DataRecord";
+import { ErrorGroup } from "../errors/ErrorGroup";
 
 export interface Message extends DataRecord {
   body: string;
@@ -21,4 +22,24 @@ export function createMessage(init?: Partial<Message>): Message {
     quotePath: init?.quotePath ?? [],
     url: init?.url ?? "",
   };
+}
+
+export function assertMessage(message: Message): void {
+  const errors: Error[] = [];
+
+  if (message.bookId === "") {
+    errors.push(new Error("bookId is required"));
+  }
+
+  if (message.ip === "") {
+    errors.push(new Error("ip is required"));
+  }
+
+  if (message.url === "") {
+    errors.push(new Error("url is required"));
+  }
+
+  if (errors.length > 0) {
+    throw new ErrorGroup(errors);
+  }
 }

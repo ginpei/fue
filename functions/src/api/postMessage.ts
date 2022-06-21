@@ -1,7 +1,7 @@
 import {FieldValue, Timestamp} from "firebase-admin/firestore";
 import {logger, Request, Response} from "firebase-functions/v1";
 import {onRequest} from "firebase-functions/v1/https";
-import {createMessage, Message} from "../../../src/domains/messages/Message";
+import {assertMessage, createMessage, Message} from "../../../src/domains/messages/Message";
 import {getFirestore} from "../firebase";
 import {buildErrorLogContent} from "../tools/errors";
 import {HttpError} from "../tools/httpError";
@@ -35,6 +35,7 @@ async function post(req: Request, res: Response) {
   // TODO validate
   const body = getRequestBody<Message>(req);
   const message = createMessage({...body, ip: req.ip});
+  assertMessage(message);
 
   // TODO collection
   const db = getFirestore();
