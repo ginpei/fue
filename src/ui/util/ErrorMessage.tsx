@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useErrorLogger } from "../../functions/logs";
+import { useErrorLogger } from "../../domains/logs/logs";
 
 export interface ErrorMessageProps {
   error: Error;
