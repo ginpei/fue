@@ -5,7 +5,7 @@ import { useCurrentUser } from "../../dataProviders/currentUser";
 import { BookCallback, createBook } from "../../domains/books/Book";
 import { saveBook } from "../../domains/books/bookDb";
 import { BookForm } from "../../domains/books/BookForm";
-import { toError } from '../../functions/errors';
+import { toError } from '../../domains/errors/errors';
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
 import { bookViewPagePath } from "../bookView/bookViewPageMeta";

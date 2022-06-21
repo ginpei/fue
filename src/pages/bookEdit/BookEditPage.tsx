@@ -6,7 +6,7 @@ import { Book } from "../../domains/books/Book";
 import { deleteBook, saveBook } from "../../domains/books/bookDb";
 import { BookForm } from "../../domains/books/BookForm";
 import { useBook } from "../../domains/books/bookHooks";
-import { toError } from "../../functions/errors";
+import { toError } from "../../domains/errors/errors";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { DangerButton } from "../../ui/forms/NiceButton";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";

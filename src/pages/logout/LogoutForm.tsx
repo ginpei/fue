@@ -1,6 +1,6 @@
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
-import { toError } from "../../functions/errors";
+import { toError } from "../../domains/errors/errors";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
 
 export interface LogoutFormProps {
