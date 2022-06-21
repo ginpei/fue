@@ -8,7 +8,26 @@ import {buildErrorLogContent} from "../tools/errors";
 import {HttpError} from "../tools/httpError";
 import {getRequestBody} from "../tools/request";
 
-export const postMessage = onRequest(async (req, res) => {
+export type PostMessageJson =
+  | PostMessageSuccessJson
+  | ValidationErrorJson
+  | HttpErrorJson
+
+export interface PostMessageSuccessJson {
+  message: Message;
+  ok: true;
+}
+
+export interface ValidationErrorJson {
+  errors: string[];
+  ok: false;
+}
+
+export interface HttpErrorJson {
+  ok: false;
+}
+
+export const postMessage = onRequest(async (req, res: Response<PostMessageJson>) => {
   res.set("Access-Control-Allow-Origin", "*");
 
   try {
@@ -21,20 +40,20 @@ export const postMessage = onRequest(async (req, res) => {
   } catch (error) {
     if (error instanceof ValidationErrorGroup) {
       res.status(400);
-      res.json({errors: error.messages});
+      res.json({errors: error.messages, ok: false});
       logger.info(buildErrorLogContent(error));
       return;
     }
 
     const statusCode = error instanceof HttpError ? error.code : 500;
-    res.sendStatus(statusCode);
-    res.end();
+    res.status(statusCode);
+    res.json({ok: false});
 
     logger.error(buildErrorLogContent(error));
   }
 });
 
-async function post(req: Request, res: Response) {
+async function post(req: Request, res: Response<PostMessageSuccessJson>) {
   logger.info("postMessage", {
     body: req.body,
     ip: req.ip,
@@ -62,7 +81,7 @@ async function post(req: Request, res: Response) {
     id: ss.id,
     createdAt: (data.updatedAt as Timestamp).toMillis(),
     updatedAt: (data.updatedAt as Timestamp).toMillis(),
-  };
+  } as Message;
 
-  res.json(storedData);
+  res.json({message: storedData, ok: true});
 }
