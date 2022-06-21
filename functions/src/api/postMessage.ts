@@ -81,9 +81,9 @@ async function post(req: Request, res: Response<PostMessageSuccessJson>) {
   const message = createMessage({...body, ip});
   assertMessage(message);
 
-  // TODO collection
+  // TODO converter
   const db = getFirestore();
-  const coll = db.collection("api");
+  const coll = db.collection("books").doc(message.bookId).collection("messages");
   const ref = await coll.add({
     ...message,
     createdAt: FieldValue.serverTimestamp(),
