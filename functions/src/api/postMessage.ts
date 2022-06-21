@@ -77,7 +77,8 @@ async function post(req: Request, res: Response<PostMessageSuccessJson>) {
 
   // TODO validate
   const body = getRequestBody<Message>(req);
-  const message = createMessage({...body, ip: req.ip});
+  const ip = getReqIpAddr(req);
+  const message = createMessage({...body, ip});
   assertMessage(message);
 
   // TODO collection
@@ -100,4 +101,8 @@ async function post(req: Request, res: Response<PostMessageSuccessJson>) {
   } as Message;
 
   res.json({message: storedData, ok: true});
+}
+
+function getReqIpAddr(req: Request): string {
+  return process.env.DEBUG_REQUEST_IP ?? req.ip;
 }
