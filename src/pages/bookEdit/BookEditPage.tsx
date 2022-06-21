@@ -1,11 +1,11 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { working } from "../../data/working";
-import { useCurrentUser } from "../../dataProviders/currentUser";
 import { Book } from "../../domains/books/Book";
 import { deleteBook, saveBook } from "../../domains/books/bookDb";
 import { BookForm } from "../../domains/books/BookForm";
 import { useBook } from "../../domains/books/bookHooks";
+import { useCurrentUser } from "../../domains/currentUsers/currentUserHooks";
 import { toError } from "../../domains/errors/errors";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { DangerButton } from "../../ui/forms/NiceButton";

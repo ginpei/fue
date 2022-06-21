@@ -1,7 +1,6 @@
 import { working } from "../../data/working";
-import { useCurrentUser } from "../../dataProviders/currentUser";
-import { Book } from "../../domains/books/Book";
 import { useUserBooks } from "../../domains/books/bookHooks";
+import { useCurrentUser } from "../../domains/currentUsers/currentUserHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { bookCreatePagePath } from "../bookCreate/bookCreatePageMeta";
 import { bookViewPagePath } from "../bookView/bookViewPageMeta";
