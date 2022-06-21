@@ -12,7 +12,7 @@ export const postMessage = onRequest(async (req, res) => {
 
   try {
     if (req.method === "POST") {
-      post(req, res);
+      await post(req, res);
       return;
     }
 
