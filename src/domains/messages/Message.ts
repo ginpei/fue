@@ -1,5 +1,5 @@
 import { createDataRecord, DataRecord } from "../dataRecords/DataRecord";
-import { ErrorGroup } from "../errors/ErrorGroup";
+import { ValidationErrorGroup } from "../errors/ValidationErrorGroup";
 
 export interface Message extends DataRecord {
   body: string;
@@ -40,6 +40,6 @@ export function assertMessage(message: Message): void {
   }
 
   if (errors.length > 0) {
-    throw new ErrorGroup(errors);
+    throw new ValidationErrorGroup(errors);
   }
 }

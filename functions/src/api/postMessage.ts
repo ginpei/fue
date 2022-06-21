@@ -1,6 +1,7 @@
 import {FieldValue, Timestamp} from "firebase-admin/firestore";
 import {logger, Request, Response} from "firebase-functions/v1";
 import {onRequest} from "firebase-functions/v1/https";
+import {ValidationErrorGroup} from "../../../src/domains/errors/ValidationErrorGroup";
 import {assertMessage, createMessage, Message} from "../../../src/domains/messages/Message";
 import {getFirestore} from "../firebase";
 import {buildErrorLogContent} from "../tools/errors";
@@ -18,6 +19,13 @@ export const postMessage = onRequest(async (req, res) => {
 
     throw new HttpError(404, `Unsupported method: ${req.method}`);
   } catch (error) {
+    if (error instanceof ValidationErrorGroup) {
+      res.status(400);
+      res.json({errors: error.messages});
+      logger.info(buildErrorLogContent(error));
+      return;
+    }
+
     const statusCode = error instanceof HttpError ? error.code : 500;
     res.sendStatus(statusCode);
     res.end();
