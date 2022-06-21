@@ -53,6 +53,22 @@ export const postMessage = onRequest(async (req, res: Response<PostMessageJson>)
   }
 });
 
+/**
+ * @example
+ * message = {
+ *   body: "Hello",
+ *   bookId: "AqVeSGkVAmjeb0z0LrZj",
+ *   quote: "qqq",
+ *   quotePath: ["#element", "span:nth-child(2)"],
+ *   url: "https://example.com/path/to/page",
+ * };
+ * url = "http://127.0.0.1:5001/ginpei-fue/us-central1/postMessage";
+ * res = await fetch(url, {
+ *   body: JSON.stringify(message),
+ *   method: "POST",
+ * });
+ * data = await res.json();
+ */
 async function post(req: Request, res: Response<PostMessageSuccessJson>) {
   logger.info("postMessage", {
     body: req.body,
