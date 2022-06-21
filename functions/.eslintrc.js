@@ -34,6 +34,7 @@ module.exports = {
       files: ["*.ts"],
       rules: {
         "require-jsdoc": "off",
+        "valid-jsdoc": "off",
       },
     },
   ],
