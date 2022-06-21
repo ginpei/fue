@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged, User } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { working } from "../../data/working";
+import { working } from "../../misc/working";
 
 export function useCurrentUser(): User | null | working {
   const [user, setUser] = useState<User | null | working>(working);

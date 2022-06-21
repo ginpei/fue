@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { working } from "../../data/working";
 import { Book } from "../../domains/books/Book";
 import { deleteBook, saveBook } from "../../domains/books/bookDb";
 import { BookForm } from "../../domains/books/BookForm";
@@ -8,6 +7,7 @@ import { useBook } from "../../domains/books/bookHooks";
 import { useCurrentUser } from "../../domains/currentUsers/currentUserHooks";
 import { toError } from "../../domains/errors/errors";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { working } from "../../misc/working";
 import { DangerButton } from "../../ui/forms/NiceButton";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
 import { bookViewPagePath } from "../bookView/bookViewPageMeta";

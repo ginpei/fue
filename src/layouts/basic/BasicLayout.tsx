@@ -1,5 +1,5 @@
-import { working } from '../../data/working';
 import { useCurrentUser } from '../../domains/currentUsers/currentUserHooks';
+import { working } from '../../misc/working';
 import { LoadingPage } from '../../pages/loading/LoadingPage';
 import { loginPagePath } from '../../pages/login/loginPageMeta';
 import { BasicNavBarLink } from './BasicNavBarLink';

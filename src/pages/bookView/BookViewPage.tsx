@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { working } from "../../data/working";
 import { useBook } from "../../domains/books/bookHooks";
 import { useBookMessages } from "../../domains/messages/messageHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { working } from "../../misc/working";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
 import { LiningText } from "../../ui/util/LiningText";
 import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
