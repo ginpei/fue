@@ -5,6 +5,7 @@ import { useBook } from "../../domains/books/bookHooks";
 import { createMessage } from "../../domains/messages/Message";
 import { useBookMessages } from "../../domains/messages/messageHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
+import { emulating } from "../../misc/firebase";
 import { working } from "../../misc/working";
 import { InputField } from "../../ui/forms/InputField";
 import { PrimaryButton } from "../../ui/forms/NiceButton";
@@ -72,7 +73,10 @@ function DevPostMessageSection(props: { bookId: string }): JSX.Element {
 
   const onSubmit: FormEventHandler = async (event) => {
     event.preventDefault();
-    const res = await fetch("http://127.0.0.1:5001/ginpei-fue/us-central1/postMessage", {
+    const url = emulating
+    ? "http://127.0.0.1:5001/ginpei-fue/us-central1/postMessage"
+    : "https://us-central1-ginpei-fue.cloudfunctions.net/postMessage";
+    const res = await fetch(url, {
       body: JSON.stringify(message),
       method: "POST",
     });

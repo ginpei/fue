@@ -24,7 +24,9 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
-const emulating = process.env.NODE_ENV !== "production";
+const inProduction = process.env.NODE_ENV === "production";
+const usingRealFb = process.env.NEXT_PUBLIC_FIREBASE_USE_REAL;
+export const emulating = !inProduction && !usingRealFb;
 if (emulating) {
   // eslint-disable-next-line no-console
   console.info("Using emulators");
