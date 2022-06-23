@@ -9,9 +9,7 @@ import { LiningText } from "../../ui/util/LiningText";
 import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
-
-export interface BookViewPageProps {
-}
+import { MessageItem } from "./MessageItem";
 
 export function BookViewPage(): JSX.Element {
   const bookId = useRouterBookId();
@@ -37,13 +35,9 @@ export function BookViewPage(): JSX.Element {
       </LiningText>
       <h2>Messages</h2>
       {messagesError && <ErrorMessage error={messagesError} />}
-      <ul>
-        {messages.map((message) => (
-          <li key={message.id}>
-            {message.body}
-          </li>
-        ))}
-      </ul>
+      {messages.map((message) => (
+        <MessageItem key={message.id} message={message} />
+      ))}
     </BasicLayout>
   );
 }

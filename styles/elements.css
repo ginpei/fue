@@ -32,6 +32,10 @@ h3 {
   font-size: var(--space-2);
 }
 
+pre {
+  font-family: inherit;
+}
+
 a {
   color: var(--blue-500);
 }

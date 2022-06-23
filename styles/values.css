@@ -6,10 +6,17 @@
   --blue-500: #06f;
   --blue-800: #036;
 
+  --gray-300: #ccc;
+  --gray-400: #999;
+  --gray-500: #757575;
   --gray-900: #333;
 }
 
 :root {
+  --space--5: calc(var(--space--4) / 1.3);
+  --space--4: calc(var(--space--3) / 1.3);
+  --space--3: calc(var(--space--2) / 1.3);
+  --space--2: calc(var(--space--1) / 1.3);
   --space--1: calc(var(--space-1) / 1.3);
   --space-1: 16px;
   --space-2: calc(var(--space-1) * 1.3);
