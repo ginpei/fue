@@ -1,6 +1,10 @@
 import { collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDocs, getFirestore } from "firebase/firestore";
 import { getBookDoc } from "../books/bookDb";
+import { FirestoreData } from "../dataRecords/FirestoreData";
+import { ssToDataRecord } from "../dataRecords/firestoreDataDb";
 import { createMessage, Message } from "./Message";
+
+export type MessageRecord = FirestoreData<Message>;
 
 export async function loadBookMessages(bookId: string, db = getFirestore()): Promise<Message[]> {
   const coll = getMessageCollection(db, bookId);
@@ -24,8 +28,6 @@ export function getMessageDoc(db: Firestore, bookId: string, messageId: string):
 
 // TODO
 function toMessage(ss: DocumentSnapshot): Message {
-  return createMessage({
-    ...ss.data() as Message,
-    id: ss.id,
-  });
+  const data = ssToDataRecord<Message>(ss);
+  return createMessage(data);
 }
