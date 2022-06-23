@@ -6,7 +6,7 @@ export interface Message extends DataRecord {
   bookId: string;
   ip: string;
   quote: string;
-  quotePath: string[];
+  quotePath: string;
   url: string;
 }
 
@@ -19,7 +19,7 @@ export function createMessage(init?: Partial<Message>): Message {
     bookId: init?.bookId ?? "",
     ip: init?.ip ?? "",
     quote: init?.quote ?? "",
-    quotePath: init?.quotePath ?? [],
+    quotePath: init?.quotePath ?? "",
     url: init?.url ?? "",
   };
 }
