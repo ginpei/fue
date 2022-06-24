@@ -89,6 +89,12 @@ function DevPostMessageSection(props: { bookId: string }): JSX.Element {
     const { name, value } = event.currentTarget;
     if (name === "body") {
       setMessage({ ...message, body: value });
+    } else if (name === "quote") {
+      setMessage({ ...message, quote: value });
+    } else if (name === "quotePath") {
+      setMessage({ ...message, quotePath: value });
+    } else if (name === "url") {
+      setMessage({ ...message, url: value });
     } else {
       throw new Error(`Unknown name: ${name}`);
     }
