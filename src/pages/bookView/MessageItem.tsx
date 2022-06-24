@@ -13,7 +13,9 @@ export function MessageItem({ message }: MessageItemProps): JSX.Element {
         <time>{timeNumberToString(message.createdAt)}</time>
         <code>{message.ip}</code>
       </Meta>
-      <QuoteBlock cite={message.quotePath}>
+      <div><a href={message.url}>{message.url}</a></div>
+      <div>{message.quotePath}</div>
+      <QuoteBlock cite={message.url}>
         <pre>{message.quote}</pre>
       </QuoteBlock>
       <pre>{message.body}</pre>
@@ -40,10 +42,4 @@ const QuoteBlock = styled.blockquote`
   gap: var(--space--1);
   padding-block: var(--space--1);
   padding-left: var(--space--2);
-
-  &::before {
-    color: var(--gray-500);
-    content: attr(cite);
-    display: block;
-  }
 `;
