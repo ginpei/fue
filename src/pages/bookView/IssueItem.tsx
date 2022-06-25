@@ -22,7 +22,7 @@ export function IssueItem({ issue }: IssueItemProps): JSX.Element {
       <QuoteBlock cite={issue.url}>
         <pre>{issue.quote}</pre>
       </QuoteBlock>
-      <pre>{issue.body}</pre>
+      <pre>{issue.message}</pre>
     </Root>
   );
 }

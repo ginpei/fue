@@ -2,9 +2,9 @@ import { createDataRecord, DataRecord } from "../dataRecords/DataRecord";
 import { ValidationErrorGroup } from "../errors/ValidationErrorGroup";
 
 export interface Issue extends DataRecord {
-  body: string;
   bookId: string;
   ip: string;
+  message: string;
   quote: string;
   quotePath: string;
   url: string;
@@ -15,9 +15,9 @@ export type IssueCallback = (issue: Issue) => void;
 export function createIssue(init?: Partial<Issue>): Issue {
   return {
     ...createDataRecord(init),
-    body: init?.body ?? "",
     bookId: init?.bookId ?? "",
     ip: init?.ip ?? "",
+    message: init?.message ?? "",
     quote: init?.quote ?? "",
     quotePath: init?.quotePath ?? "",
     url: init?.url ?? "",

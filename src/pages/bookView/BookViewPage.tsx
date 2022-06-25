@@ -87,8 +87,8 @@ function DevPostIssueSection(props: { bookId: string }): JSX.Element {
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
     const { name, value } = event.currentTarget;
-    if (name === "body") {
-      setIssue({ ...issue, body: value });
+    if (name === "message") {
+      setIssue({ ...issue, message: value });
     } else if (name === "quote") {
       setIssue({ ...issue, quote: value });
     } else if (name === "quotePath") {
@@ -106,10 +106,10 @@ function DevPostIssueSection(props: { bookId: string }): JSX.Element {
       <form onSubmit={onSubmit}>
         <VStack>
           <TextField
-            label="Body"
-            name="body"
+            label="Message"
+            name="message"
             onChange={onChange}
-            value={issue.body}
+            value={issue.message}
           />
           <InputField
             label="Book ID"
