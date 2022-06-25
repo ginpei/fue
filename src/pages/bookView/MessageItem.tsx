@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import styled from "styled-components";
 import { Message } from "../../domains/messages/Message";
 import { timeNumberToString } from "../../domains/times/timeConverter";
@@ -7,13 +8,16 @@ export interface MessageItemProps {
 }
 
 export function MessageItem({ message }: MessageItemProps): JSX.Element {
+  const quotedUrl = useMemo(() => {
+    return `${message.url}#:~:text=${encodeURIComponent(message.quote)}`;
+  }, [message]);
   return (
     <Root className="MessageItem">
       <Meta>
         <time>{timeNumberToString(message.createdAt)}</time>
         <code>{message.ip}</code>
       </Meta>
-      <div><a href={message.url}>{message.url}</a></div>
+      <div><a href={quotedUrl}>{message.url}</a></div>
       <div>{message.quotePath}</div>
       <QuoteBlock cite={message.url}>
         <pre>{message.quote}</pre>
