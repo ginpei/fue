@@ -1,20 +1,20 @@
-import {FieldValue, Timestamp} from "firebase-admin/firestore";
-import {logger, Request, Response} from "firebase-functions/v1";
-import {onRequest} from "firebase-functions/v1/https";
-import {ValidationErrorGroup} from "../../../src/domains/errors/ValidationErrorGroup";
-import {assertMessage, createMessage, Message} from "../../../src/domains/messages/Message";
-import {getFirestore} from "../firebase";
-import {buildErrorLogContent} from "../tools/errors";
-import {HttpError} from "../tools/httpError";
-import {getRequestBody} from "../tools/request";
+import { FieldValue, Timestamp } from "firebase-admin/firestore";
+import { logger, Request, Response } from "firebase-functions/v1";
+import { onRequest } from "firebase-functions/v1/https";
+import { ValidationErrorGroup } from "../../../src/domains/errors/ValidationErrorGroup";
+import { assertIssue, createIssue, Issue } from "../../../src/domains/issues/Issue";
+import { getFirestore } from "../firebase";
+import { buildErrorLogContent } from "../tools/errors";
+import { HttpError } from "../tools/httpError";
+import { getRequestBody } from "../tools/request";
 
-export type PostMessageJson =
-  | PostMessageSuccessJson
+export type PostIssueJson =
+  | PostIssueSuccessJson
   | ValidationErrorJson
   | HttpErrorJson
 
-export interface PostMessageSuccessJson {
-  message: Message;
+export interface PostIssueSuccessJson {
+  issue: Issue;
   ok: true;
 }
 
@@ -27,7 +27,7 @@ export interface HttpErrorJson {
   ok: false;
 }
 
-export const postMessage = onRequest(async (req, res: Response<PostMessageJson>) => {
+export const postIssue = onRequest(async (req, res: Response<PostIssueJson>) => {
   res.set("Access-Control-Allow-Origin", "*");
 
   try {
@@ -55,37 +55,37 @@ export const postMessage = onRequest(async (req, res: Response<PostMessageJson>)
 
 /**
  * @example
- * message = {
+ * issue = {
  *   body: "Hello",
  *   bookId: "AqVeSGkVAmjeb0z0LrZj",
  *   quote: "qqq",
  *   quotePath: ["#element", "span:nth-child(2)"],
  *   url: "https://example.com/path/to/page",
  * };
- * url = "http://127.0.0.1:5001/ginpei-fue/us-central1/postMessage";
+ * url = "http://127.0.0.1:5001/ginpei-fue/us-central1/postIssue";
  * res = await fetch(url, {
- *   body: JSON.stringify(message),
+ *   body: JSON.stringify(issue),
  *   method: "POST",
  * });
  * data = await res.json();
  */
-async function post(req: Request, res: Response<PostMessageSuccessJson>) {
-  logger.info("postMessage", {
+async function post(req: Request, res: Response<PostIssueSuccessJson>) {
+  logger.info("postIssue", {
     body: req.body,
     ip: req.ip,
   });
 
   // TODO validate
-  const body = getRequestBody<Message>(req);
+  const body = getRequestBody<Issue>(req);
   const ip = getReqIpAddr(req);
-  const message = createMessage({...body, ip});
-  assertMessage(message);
+  const issue = createIssue({...body, ip});
+  assertIssue(issue);
 
   // TODO converter
   const db = getFirestore();
-  const coll = db.collection("books").doc(message.bookId).collection("messages");
+  const coll = db.collection("books").doc(issue.bookId).collection("issues");
   const ref = await coll.add({
-    ...message,
+    ...issue,
     createdAt: FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp(),
   });
@@ -98,9 +98,9 @@ async function post(req: Request, res: Response<PostMessageSuccessJson>) {
     id: ss.id,
     createdAt: (data.updatedAt as Timestamp).toMillis(),
     updatedAt: (data.updatedAt as Timestamp).toMillis(),
-  } as Message;
+  } as Issue;
 
-  res.json({message: storedData, ok: true});
+  res.json({issue: storedData, ok: true});
 }
 
 function getReqIpAddr(req: Request): string {

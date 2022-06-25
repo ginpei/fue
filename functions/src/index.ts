@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-export * from "./api/postMessage";
+export * from "./api/postIssue";
 
 // Start writing Firebase Functions
 // https://firebase.google.com/docs/functions/typescript

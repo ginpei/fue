@@ -1,7 +1,7 @@
 import { createDataRecord, DataRecord } from "../dataRecords/DataRecord";
 import { ValidationErrorGroup } from "../errors/ValidationErrorGroup";
 
-export interface Message extends DataRecord {
+export interface Issue extends DataRecord {
   body: string;
   bookId: string;
   ip: string;
@@ -10,9 +10,9 @@ export interface Message extends DataRecord {
   url: string;
 }
 
-export type MessageCallback = (message: Message) => void;
+export type IssueCallback = (issue: Issue) => void;
 
-export function createMessage(init?: Partial<Message>): Message {
+export function createIssue(init?: Partial<Issue>): Issue {
   return {
     ...createDataRecord(init),
     body: init?.body ?? "",
@@ -24,18 +24,18 @@ export function createMessage(init?: Partial<Message>): Message {
   };
 }
 
-export function assertMessage(message: Message): void {
+export function assertIssue(issue: Issue): void {
   const errors: Error[] = [];
 
-  if (message.bookId === "") {
+  if (issue.bookId === "") {
     errors.push(new Error("bookId is required"));
   }
 
-  if (message.ip === "") {
+  if (issue.ip === "") {
     errors.push(new Error("ip is required"));
   }
 
-  if (message.url === "") {
+  if (issue.url === "") {
     errors.push(new Error("url is required"));
   }
 

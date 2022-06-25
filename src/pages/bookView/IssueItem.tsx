@@ -1,28 +1,28 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import { Message } from "../../domains/messages/Message";
+import { Issue } from "../../domains/issues/Issue";
 import { timeNumberToString } from "../../domains/times/timeConverter";
 
-export interface MessageItemProps {
-  message: Message;
+export interface IssueItemProps {
+  issue: Issue;
 }
 
-export function MessageItem({ message }: MessageItemProps): JSX.Element {
+export function IssueItem({ issue }: IssueItemProps): JSX.Element {
   const quotedUrl = useMemo(() => {
-    return `${message.url}#:~:text=${encodeURIComponent(message.quote)}`;
-  }, [message]);
+    return `${issue.url}#:~:text=${encodeURIComponent(issue.quote)}`;
+  }, [issue]);
   return (
-    <Root className="MessageItem">
+    <Root className="IssueItem">
       <Meta>
-        <time>{timeNumberToString(message.createdAt)}</time>
-        <code>{message.ip}</code>
+        <time>{timeNumberToString(issue.createdAt)}</time>
+        <code>{issue.ip}</code>
       </Meta>
-      <div><a href={quotedUrl}>{message.url}</a></div>
-      <div>{message.quotePath}</div>
-      <QuoteBlock cite={message.url}>
-        <pre>{message.quote}</pre>
+      <div><a href={quotedUrl}>{issue.url}</a></div>
+      <div>{issue.quotePath}</div>
+      <QuoteBlock cite={issue.url}>
+        <pre>{issue.quote}</pre>
       </QuoteBlock>
-      <pre>{message.body}</pre>
+      <pre>{issue.body}</pre>
     </Root>
   );
 }
