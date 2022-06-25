@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Script from "next/script";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useBook } from "../../domains/books/bookHooks";
 import { createIssue } from "../../domains/issues/Issue";
@@ -46,6 +47,8 @@ export function BookViewPage(): JSX.Element {
         <IssueItem key={issue.id} issue={issue} />
       ))}
       {bookId && <DevPostIssueSection bookId={bookId} />}
+      <Script src="/fue-button.js"></Script>
+      <fue-button style={{ position: "fixed", right: "8px", bottom: "8px" }}></fue-button>
     </BasicLayout>
   );
 }
