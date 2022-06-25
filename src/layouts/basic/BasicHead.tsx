@@ -13,7 +13,7 @@ export function BasicHead({ children, description, title }: BasicHeadProps): JSX
       {description && (
         <meta name="description" content={description} />
       )}
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href="/icon-512.png" />
       {children}
     </Head>
   );
