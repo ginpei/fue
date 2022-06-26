@@ -124,8 +124,8 @@ function DevReportSection(props: { bookId: string }): JSX.Element {
   };
 
   return (
-    <VStack>
-      <h2>[DEV] Post Reports</h2>
+    <details>
+      <summary>[DEV] Post Reports</summary>
       <form onSubmit={onSubmit}>
         <VStack>
           <TextField
@@ -155,6 +155,6 @@ function DevReportSection(props: { bookId: string }): JSX.Element {
           <PrimaryButton>Post</PrimaryButton>
         </VStack>
       </form>
-    </VStack>
+    </details>
   );
 }
