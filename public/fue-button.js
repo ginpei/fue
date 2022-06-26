@@ -1,11 +1,14 @@
 // @ts-check
 
+const apiUrl = location.hostname === "localhost"
+  ? "http://127.0.0.1:5001/ginpei-fue/us-central1/report"
+  : "https://us-central1-ginpei-fue.cloudfunctions.net/report";
+
 class FueButton extends HTMLElement {
   #watchingSelection = false;
 
   get apiUrl() {
-    // return "https://us-central1-ginpei-fue.cloudfunctions.net/report";
-    return "http://127.0.0.1:5001/ginpei-fue/us-central1/report";
+    return apiUrl;
   }
 
   get values() {
