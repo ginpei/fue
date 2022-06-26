@@ -6,7 +6,6 @@ export interface Report extends DataRecord {
   ip: string;
   message: string;
   quote: string;
-  quotePath: string;
   url: string;
 }
 
@@ -19,7 +18,6 @@ export function createReport(init?: Partial<Report>): Report {
     ip: init?.ip ?? "",
     message: init?.message ?? "",
     quote: init?.quote ?? "",
-    quotePath: init?.quotePath ?? "",
     url: init?.url ?? "",
   };
 }

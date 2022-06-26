@@ -94,8 +94,6 @@ function DevReportSection(props: { bookId: string }): JSX.Element {
       setReport({ ...report, message: value });
     } else if (name === "quote") {
       setReport({ ...report, quote: value });
-    } else if (name === "quotePath") {
-      setReport({ ...report, quotePath: value });
     } else if (name === "url") {
       setReport({ ...report, url: value });
     } else {
@@ -125,12 +123,6 @@ function DevReportSection(props: { bookId: string }): JSX.Element {
             name="quote"
             onChange={onChange}
             value={report.quote}
-          />
-          <InputField
-            label="Quote path"
-            name="quotePath"
-            onChange={onChange}
-            value={report.quotePath}
           />
           <InputField
             label="URL"

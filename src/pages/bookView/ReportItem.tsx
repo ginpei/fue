@@ -18,7 +18,6 @@ export function ReportItem({ report }: ReportItemProps): JSX.Element {
         <code>{report.ip}</code>
       </Meta>
       <div><a href={quotedUrl}>{report.url}</a></div>
-      <div>{report.quotePath}</div>
       <QuoteBlock cite={report.url}>
         <pre>{report.quote}</pre>
       </QuoteBlock>
