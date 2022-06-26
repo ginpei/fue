@@ -2,6 +2,7 @@ import { getAuth, GithubAuthProvider, signInWithPopup, UserCredential } from "fi
 import { useState } from "react";
 import { toError } from "../../domains/errors/errors";
 import { ErrorMessage } from "../../ui/util/ErrorMessage";
+import { TermsOfUse } from "./TermsOfUse";
 
 export interface LoginFormProps {
   onLoggedIn?: (cred: UserCredential) => void;
@@ -28,8 +29,10 @@ export function LoginForm({ onLoggedIn }: LoginFormProps): JSX.Element {
 
   return (
     <div className="LoginForm">
-      {loginError && <ErrorMessage error={loginError} />}
-      <button disabled={loggingIn} onClick={onLogInClick}>Log in</button>
+      <TermsOfUse>
+        {loginError && <ErrorMessage error={loginError} />}
+        <button disabled={loggingIn} onClick={onLogInClick}>Log in</button>
+      </TermsOfUse>
     </div>
   );
 }
