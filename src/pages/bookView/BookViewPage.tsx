@@ -51,7 +51,7 @@ export function BookViewPage(): JSX.Element {
       <h2>Tag</h2>
       <CodeExample book={book} />
       <DevReportSection bookId={bookId} />
-      <Script src="/fue-button.js"></Script>
+      <Script src="/fue-button/latest/fue-button.js"></Script>
       <fue-button
         book-id={bookId}
         style={{ position: "fixed", right: "8px", bottom: "8px" }}
@@ -64,7 +64,7 @@ function CodeExample({ book }: { book: Book }) {
   return (
     <CodePre>
       <code>
-        &lt;script async src=&quot;https://fue.ginpei.dev/fue-button.js&quot;&gt;&lt;/script&gt;
+        &lt;script async src=&quot;https://fue.ginpei.dev/fue-button/beta-1/fue-button.js&quot;&gt;&lt;/script&gt;
         {"\n"}
         &lt;fue-button book-id=&quot;{book.id}&quot;&gt;&lt;/fue-button&gt;
       </code>

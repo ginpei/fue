@@ -1,7 +1,7 @@
 // @ts-check
 
 /**
- * @typedef {Pick<import("../src/domains/reports/Report").Report, "bookId" | "message" | "quote" | "url">} ReportEnvelope
+ * @typedef {Pick<import("../../../src/domains/reports/Report").Report, "bookId" | "message" | "quote" | "url">} ReportEnvelope
  * @typedef {Pick<ReportEnvelope, "message" | "quote">} FormValues
  */
 
