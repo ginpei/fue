@@ -2,6 +2,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
+import styled from "styled-components";
+import { Book } from "../../domains/books/Book";
 import { useBook } from "../../domains/books/bookHooks";
 import { createReport } from "../../domains/reports/Report";
 import { useBookReports } from "../../domains/reports/reportHooks";
@@ -46,12 +48,32 @@ export function BookViewPage(): JSX.Element {
       {reports.map((report) => (
         <ReportItem key={report.id} report={report} />
       ))}
+      <h2>Tag</h2>
+      <CodeExample book={book} />
       {bookId && <DevReportSection bookId={bookId} />}
       <Script src="/fue-button.js"></Script>
       <fue-button style={{ position: "fixed", right: "8px", bottom: "8px" }}></fue-button>
     </BasicLayout>
   );
 }
+
+function CodeExample({ book }: { book: Book }) {
+  return (
+    <CodePre>
+      <code>
+        &lt;script async src=&quot;https://fue.ginpei.dev/fue-button.js&quot;&gt;&lt;/script&gt;
+        {"\n"}
+        &lt;fue-button book-id=&quot;{book.id}&quot;&gt;&lt;/fue-button&gt;
+      </code>
+    </CodePre>
+  );
+}
+
+const CodePre = styled.pre`
+  background-color: var(--gray-200);
+  border: thin solid var(--gray-500);
+  padding: var(--space--2);
+`;
 
 function useRouterBookId(): string | working {
   const router = useRouter();
