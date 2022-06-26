@@ -50,7 +50,7 @@ export function BookViewPage(): JSX.Element {
       ))}
       <h2>Tag</h2>
       <CodeExample book={book} />
-      {bookId && <DevReportSection bookId={bookId} />}
+      <DevReportSection bookId={bookId} />
       <Script src="/fue-button.js"></Script>
       <fue-button style={{ position: "fixed", right: "8px", bottom: "8px" }}></fue-button>
     </BasicLayout>
