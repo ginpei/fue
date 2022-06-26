@@ -52,7 +52,10 @@ export function BookViewPage(): JSX.Element {
       <CodeExample book={book} />
       <DevReportSection bookId={bookId} />
       <Script src="/fue-button.js"></Script>
-      <fue-button style={{ position: "fixed", right: "8px", bottom: "8px" }}></fue-button>
+      <fue-button
+        book-id={bookId}
+        style={{ position: "fixed", right: "8px", bottom: "8px" }}
+      />
     </BasicLayout>
   );
 }
