@@ -3,6 +3,42 @@
 class FueButton extends HTMLElement {
   #watchingSelection = false;
 
+  get apiUrl() {
+    // return "https://us-central1-ginpei-fue.cloudfunctions.net/postIssue";
+    return "http://127.0.0.1:5001/ginpei-fue/us-central1/postIssue";
+  }
+
+  get values() {
+    const elForm = this.#ref("form");
+    if (!(elForm instanceof HTMLFormElement)) {
+      throw new Error("HTMLFormElement expected");
+    }
+
+    const formValues = {};
+    for (const el of elForm.elements) {
+      if (
+        !(el instanceof HTMLInputElement) &&
+        !(el instanceof HTMLSelectElement) &&
+        !(el instanceof HTMLTextAreaElement)
+      ) {
+        continue;
+      }
+
+      if (!el.name) {
+        throw new Error("name required");
+      }
+
+      formValues[el.name] = el.value;
+    }
+
+    const compositeValues = {
+      ...formValues,
+      url: location.href,
+      bookId: "x",
+    };
+    return compositeValues;
+  }
+
   get #selectedText() {
     const selection = this.ownerDocument.getSelection();
     if (!selection || selection.rangeCount < 1) {
@@ -69,7 +105,7 @@ class FueButton extends HTMLElement {
             box-shadow: 0 0 0 1px var(--theme-color);
           }
 
-        .popup {
+        .buttonTooltip {
           background-color: var(--theme-color);
           color: white;
           display: none;
@@ -77,9 +113,18 @@ class FueButton extends HTMLElement {
           pointer-events: none;
           width: max-content;
         }
-          .button:hover + .popup {
+          .button:hover + .buttonTooltip {
             display: block;
           }
+
+        .completeTooltip {
+          background-color: green;
+          color: white;
+          display: none;
+          padding: 0.5em;
+          pointer-events: none;
+          width: max-content;
+        }
 
         .form {
           background-color: white;
@@ -90,20 +135,35 @@ class FueButton extends HTMLElement {
           bottom: 60px;
           box-shadow: 0 0 1em #0003;
           display: none;
-          flex-direction: column;
-          gap: 1em;
           padding: 1em;
           position: fixed;
           right: 8px;
           max-width: calc(90vw - 20px - 2em);
         }
           .form--visible {
-            display: flex;
+            display: block;
           }
+
+        .form-group {
+          display: flex;
+          flex-direction: column;
+          gap: 1em;
+        }
 
         h1.form-heading {
           font-size: 1em;
           margin: 0;
+        }
+
+        .form-group{
+          border-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        .form-error {
+          color: red;
+          display: none;
         }
 
         label.label {
@@ -122,31 +182,42 @@ class FueButton extends HTMLElement {
         }
       </style>
       <div class="floating">
-        <button class="button" data-ref="button">🤔</button>
-        <div class="popup">修正依頼</div>
+        <button class="button" data-ref="button">
+          🤔
+        </button>
+        <div class="buttonTooltip">修正依頼</div>
+        <div class="completeTooltip" data-ref="completeTooltip">
+          送信しました
+        </div>
       </div>
       <form class="form" data-ref="form">
-        <h1 class="form-heading">修正依頼</h1>
-        <label class="label">
-          <span class="label-text">引用</span>
-          <textarea
-            data-ref="quote"
-            name="quote"
-            readonly
-          ></textarea>
-          <small class="hint">ページ内で文章を選択してください。</small>
-        </label>
-        <label class="label">
-          <span class="label-text">本文</span>
-          <textarea autofocus name="message"></textarea>
-        </label>
-        <small class="hint">その他記録されるもの：URL、IP アドレス、日時</small>
-        <button type="submit">送信</button>
+        <fieldset class="form-group" data-ref="form-group">
+          <h1 class="form-heading">修正依頼</h1>
+          <div class="form-error" data-ref="form-error"></div>
+          <label class="label">
+            <span class="label-text">引用</span>
+            <textarea
+              data-ref="quote"
+              name="quote"
+              readonly
+            ></textarea>
+            <small class="hint">ページ内で文章を選択してください。</small>
+          </label>
+          <label class="label">
+            <span class="label-text">本文</span>
+            <textarea autofocus name="message"></textarea>
+          </label>
+          <small class="hint">その他記録されるもの：URL、IP アドレス、日時</small>
+          <button type="submit">送信</button>
+        </fieldset>
       </form>
     `;
 
     this.#ref("button").addEventListener("click", (event) =>
       this.#onClick(event)
+    );
+    this.#ref("form").addEventListener("submit", (event) =>
+      this.#onSubmit(event)
     );
   }
 
@@ -162,10 +233,53 @@ class FueButton extends HTMLElement {
       this.#onSelectionChange();
     }
 
-    const elForm = this.#ref("form");
-    elForm.classList.toggle("form--visible");
+    this.toggle();
 
     this.#querySelector("[autofocus]").focus();
+  }
+
+  /**
+   * @param {SubmitEvent} event
+   */
+  async #onSubmit(event) {
+    event.preventDefault();
+
+    const elForm = this.#ref("form");
+    if (!(elForm instanceof HTMLFormElement)) {
+      throw new Error("HTMLFormElement expected");
+    }
+
+    const elGroup = this.#ref("form-group");
+    if (!(elGroup instanceof HTMLFieldSetElement)) {
+      throw new Error("HTMLFieldSetElement expected");
+    }
+
+    elGroup.disabled = true;
+    this.#renderError(null);
+
+    try {
+      const res = await fetch(this.apiUrl, {
+        method: "POST",
+        body: JSON.stringify(this.values),
+      });
+      if (!res.ok) {
+        const body = await res.json();
+        console.log(body);
+        throw new Error(`${res.status} ${res.statusText}`);
+      }
+
+      elForm.reset();
+      this.toggle(false);
+
+      const elTooltip = this.#ref("completeTooltip");
+      elTooltip.style.display = "block";
+      setTimeout(() => elTooltip.style.display = "", 3000);
+      
+    } catch (error) {
+      this.#renderError(error);
+    } finally {
+      elGroup.disabled = false;
+    }
   }
 
   #onSelectionChange() {
@@ -180,6 +294,35 @@ class FueButton extends HTMLElement {
     }
 
     el.value = value;
+  }
+
+  /**
+   * @param {boolean} [force]
+   */
+  toggle(force) {
+    this.#ref("form").classList.toggle("form--visible", force);
+  }
+
+  /**
+   * @param {unknown} error
+   */
+  #renderError(error) {
+    const el = this.#ref("form-error");
+
+    if (!error) {
+      el.style.display = "";
+      el.textContent = "";
+      return;
+    }
+
+    console.error(error);
+
+    const certainError = error instanceof Error
+      ? error
+      : new Error(String(error));
+
+    el.style.display = "block";
+    el.textContent = certainError.message;
   }
 
   /**
