@@ -18,5 +18,5 @@ export function BasicFooter(): JSX.Element {
 const Outer = styled.div`
   border-top: thin dashed gray;
   margin-top: 3rem;
-  padding-top: 3rem;
+  padding-block: 3rem;
 `;
