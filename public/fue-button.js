@@ -37,7 +37,7 @@ class FueButton extends HTMLElement {
     const compositeValues = {
       ...formValues,
       url: location.href,
-      bookId: "x",
+      bookId: this.getAttribute("book-id"),
     };
     return compositeValues;
   }
@@ -261,6 +261,10 @@ class FueButton extends HTMLElement {
     this.#renderError(null);
 
     try {
+      if (!this.values.bookId) {
+        throw new Error("Attribute `book-id` required");
+      }
+
       const res = await fetch(this.apiUrl, {
         method: "POST",
         body: JSON.stringify(this.values),
