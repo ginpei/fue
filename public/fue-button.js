@@ -1,5 +1,10 @@
 // @ts-check
 
+/**
+ * @typedef {Pick<import("../src/domains/reports/Report").Report, "bookId" | "message" | "quote" | "url">} ReportEnvelope
+ * @typedef {Pick<ReportEnvelope, "message" | "quote">} FormValues
+ */
+
 const apiUrl = location.hostname === "localhost"
   ? "http://127.0.0.1:5001/ginpei-fue/us-central1/report"
   : "https://us-central1-ginpei-fue.cloudfunctions.net/report";
@@ -11,13 +16,20 @@ class FueButton extends HTMLElement {
     return apiUrl;
   }
 
+  /**
+   * @type {ReportEnvelope}
+   */
   get values() {
     const elForm = this.#ref("form");
     if (!(elForm instanceof HTMLFormElement)) {
       throw new Error("HTMLFormElement expected");
     }
 
-    const formValues = {};
+    /** @type {FormValues} */
+    const formValues = {
+      message: "",
+      quote: "",
+    };
     for (const el of elForm.elements) {
       if (
         !(el instanceof HTMLInputElement) &&
@@ -34,10 +46,11 @@ class FueButton extends HTMLElement {
       formValues[el.name] = el.value;
     }
 
+    /** @type {ReportEnvelope} */
     const compositeValues = {
       ...formValues,
       url: location.href,
-      bookId: this.getAttribute("book-id"),
+      bookId: this.getAttribute("book-id") ?? "",
     };
     return compositeValues;
   }
