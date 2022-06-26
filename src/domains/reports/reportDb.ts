@@ -1,4 +1,4 @@
-import { collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDocs, getFirestore } from "firebase/firestore";
+import { collection, CollectionReference, doc, DocumentReference, DocumentSnapshot, Firestore, getDocs, getFirestore, orderBy, query } from "firebase/firestore";
 import { getBookDoc } from "../books/bookDb";
 import { FirestoreData } from "../dataRecords/FirestoreData";
 import { ssToDataRecord } from "../dataRecords/firestoreDataDb";
@@ -8,7 +8,8 @@ export type ReportRecord = FirestoreData<Report>;
 
 export async function loadBookReports(bookId: string, db = getFirestore()): Promise<Report[]> {
   const coll = getReportCollection(db, bookId);
-  const ss = await getDocs(coll);
+  const q = query(coll, orderBy("createdAt", "desc"));
+  const ss = await getDocs(q);
 
   const reports = ss.docs.map((v) => toReport(v));
   return reports;
