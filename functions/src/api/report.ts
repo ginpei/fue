@@ -2,19 +2,19 @@ import { FieldValue, Timestamp } from "firebase-admin/firestore";
 import { logger, Request, Response } from "firebase-functions/v1";
 import { onRequest } from "firebase-functions/v1/https";
 import { ValidationErrorGroup } from "../../../src/domains/errors/ValidationErrorGroup";
-import { assertIssue, createIssue, Issue } from "../../../src/domains/issues/Issue";
+import { assertReport, createReport, Report } from "../../../src/domains/reports/Report";
 import { getFirestore } from "../firebase";
 import { buildErrorLogContent } from "../tools/errors";
 import { HttpError } from "../tools/httpError";
 import { getRequestBody } from "../tools/request";
 
-export type PostIssueJson =
-  | PostIssueSuccessJson
+export type ReportJson =
+  | ReportSuccessJson
   | ValidationErrorJson
   | HttpErrorJson
 
-export interface PostIssueSuccessJson {
-  issue: Issue;
+export interface ReportSuccessJson {
+  report: Report;
   ok: true;
 }
 
@@ -27,7 +27,7 @@ export interface HttpErrorJson {
   ok: false;
 }
 
-export const postIssue = onRequest(async (req, res: Response<PostIssueJson>) => {
+export const report = onRequest(async (req, res: Response<ReportJson>) => {
   res.set("Access-Control-Allow-Origin", "*");
 
   try {
@@ -55,37 +55,37 @@ export const postIssue = onRequest(async (req, res: Response<PostIssueJson>) => 
 
 /**
  * @example
- * issue = {
+ * report = {
  *   body: "Hello",
  *   bookId: "AqVeSGkVAmjeb0z0LrZj",
  *   quote: "qqq",
  *   quotePath: ["#element", "span:nth-child(2)"],
  *   url: "https://example.com/path/to/page",
  * };
- * url = "http://127.0.0.1:5001/ginpei-fue/us-central1/postIssue";
+ * url = "http://127.0.0.1:5001/ginpei-fue/us-central1/report";
  * res = await fetch(url, {
- *   body: JSON.stringify(issue),
+ *   body: JSON.stringify(report),
  *   method: "POST",
  * });
  * data = await res.json();
  */
-async function post(req: Request, res: Response<PostIssueSuccessJson>) {
-  logger.info("postIssue", {
+async function post(req: Request, res: Response<ReportSuccessJson>) {
+  logger.info("report", {
     body: req.body,
     ip: req.ip,
   });
 
   // TODO validate
-  const body = getRequestBody<Issue>(req);
+  const body = getRequestBody<Report>(req);
   const ip = getReqIpAddr(req);
-  const issue = createIssue({...body, ip});
-  assertIssue(issue);
+  const report = createReport({...body, ip});
+  assertReport(report);
 
   // TODO converter
   const db = getFirestore();
-  const coll = db.collection("books").doc(issue.bookId).collection("issues");
+  const coll = db.collection("books").doc(report.bookId).collection("reports");
   const ref = await coll.add({
-    ...issue,
+    ...report,
     createdAt: FieldValue.serverTimestamp(),
     updatedAt: FieldValue.serverTimestamp(),
   });
@@ -98,9 +98,9 @@ async function post(req: Request, res: Response<PostIssueSuccessJson>) {
     id: ss.id,
     createdAt: (data.updatedAt as Timestamp).toMillis(),
     updatedAt: (data.updatedAt as Timestamp).toMillis(),
-  } as Issue;
+  } as Report;
 
-  res.json({issue: storedData, ok: true});
+  res.json({report: storedData, ok: true});
 }
 
 function getReqIpAddr(req: Request): string {

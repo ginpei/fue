@@ -13,7 +13,7 @@ service cloud.firestore {
       allow delete: if isCurrentUserId(resource.data.userId);
     }
 
-    match /books/{bookId}/issues/{issueId} {
+    match /books/{bookId}/reports/{reportId} {
       allow read: if isCurrentUserId(getBook(bookId).data.userId);
     }
 

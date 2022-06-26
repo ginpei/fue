@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { ChangeEventHandler, FormEventHandler, useState } from "react";
 import { useBook } from "../../domains/books/bookHooks";
-import { createIssue } from "../../domains/issues/Issue";
-import { useBookIssues } from "../../domains/issues/issueHooks";
+import { createReport } from "../../domains/reports/Report";
+import { useBookReports } from "../../domains/reports/reportHooks";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { emulating } from "../../misc/firebase";
 import { working } from "../../misc/working";
@@ -17,14 +17,14 @@ import { VStack } from "../../ui/util/VStack";
 import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
-import { IssueItem } from "./IssueItem";
+import { ReportItem } from "./ReportItem";
 
 export function BookViewPage(): JSX.Element {
   const bookId = useRouterBookId();
   const book = useBook(bookId);
-  const [issues, issuesError] = useBookIssues(book);
+  const [reports, reportsError] = useBookReports(book);
 
-  if (bookId === working || book === working || issues === working) {
+  if (bookId === working || book === working || reports === working) {
     return <LoadingPage />;
   }
 
@@ -41,12 +41,12 @@ export function BookViewPage(): JSX.Element {
       <LiningText>
         {book.description ? book.description : <small>(No description)</small>}
       </LiningText>
-      <h2>Issues</h2>
-      {issuesError && <ErrorMessage error={issuesError} />}
-      {issues.map((issue) => (
-        <IssueItem key={issue.id} issue={issue} />
+      <h2>Reports</h2>
+      {reportsError && <ErrorMessage error={reportsError} />}
+      {reports.map((report) => (
+        <ReportItem key={report.id} report={report} />
       ))}
-      {bookId && <DevPostIssueSection bookId={bookId} />}
+      {bookId && <DevReportSection bookId={bookId} />}
       <Script src="/fue-button.js"></Script>
       <fue-button style={{ position: "fixed", right: "8px", bottom: "8px" }}></fue-button>
     </BasicLayout>
@@ -67,37 +67,37 @@ function useRouterBookId(): string | working {
   return bookId;
 }
 
-function DevPostIssueSection(props: { bookId: string }): JSX.Element {
-  const initialIssue = createIssue({
+function DevReportSection(props: { bookId: string }): JSX.Element {
+  const initialReport = createReport({
     bookId: props.bookId,
     url: "https://example.com/path/to/content",
   });
-  const [issue, setIssue] = useState(initialIssue);
+  const [report, setReport] = useState(initialReport);
 
   const onSubmit: FormEventHandler = async (event) => {
     event.preventDefault();
     const url = emulating
-    ? "http://127.0.0.1:5001/ginpei-fue/us-central1/postIssue"
-    : "https://us-central1-ginpei-fue.cloudfunctions.net/postIssue";
+    ? "http://127.0.0.1:5001/ginpei-fue/us-central1/report"
+    : "https://us-central1-ginpei-fue.cloudfunctions.net/report";
     const res = await fetch(url, {
-      body: JSON.stringify(issue),
+      body: JSON.stringify(report),
       method: "POST",
     });
     const data = await res.json();
     console.log('# data', data);
-    setIssue(initialIssue);
+    setReport(initialReport);
   };
 
   const onChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (event) => {
     const { name, value } = event.currentTarget;
     if (name === "message") {
-      setIssue({ ...issue, message: value });
+      setReport({ ...report, message: value });
     } else if (name === "quote") {
-      setIssue({ ...issue, quote: value });
+      setReport({ ...report, quote: value });
     } else if (name === "quotePath") {
-      setIssue({ ...issue, quotePath: value });
+      setReport({ ...report, quotePath: value });
     } else if (name === "url") {
-      setIssue({ ...issue, url: value });
+      setReport({ ...report, url: value });
     } else {
       throw new Error(`Unknown name: ${name}`);
     }
@@ -105,38 +105,38 @@ function DevPostIssueSection(props: { bookId: string }): JSX.Element {
 
   return (
     <VStack>
-      <h2>[DEV] Post Issues</h2>
+      <h2>[DEV] Post Reports</h2>
       <form onSubmit={onSubmit}>
         <VStack>
           <TextField
             label="Message"
             name="message"
             onChange={onChange}
-            value={issue.message}
+            value={report.message}
           />
           <InputField
             label="Book ID"
             name="bookId"
             readOnly
-            value={issue.bookId}
+            value={report.bookId}
           />
           <InputField
             label="Quote"
             name="quote"
             onChange={onChange}
-            value={issue.quote}
+            value={report.quote}
           />
           <InputField
             label="Quote path"
             name="quotePath"
             onChange={onChange}
-            value={issue.quotePath}
+            value={report.quotePath}
           />
           <InputField
             label="URL"
             name="url"
             onChange={onChange}
-            value={issue.url}
+            value={report.url}
           />
           <PrimaryButton>Post</PrimaryButton>
         </VStack>

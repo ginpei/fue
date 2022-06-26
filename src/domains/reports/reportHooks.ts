@@ -1,34 +1,34 @@
 import { useEffect, useState } from "react";
 import { working } from "../../misc/working";
 import { Book } from "../books/Book";
-import { Issue } from "./Issue";
-import { loadBookIssues } from "./issueDb";
+import { Report } from "./Report";
+import { loadBookReports } from "./reportDb";
 
-export function useBookIssues(book: Book | string | null | working): [Issue[] | working, Error | null] {
-  const [issues, setIssues] = useState<Issue[] | working>(working);
+export function useBookReports(book: Book | string | null | working): [Report[] | working, Error | null] {
+  const [reports, setReports] = useState<Report[] | working>(working);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     setError(null);
 
     if (book === null) {
-      setIssues([]);
+      setReports([]);
       return;
     }
 
-    setIssues(working);
+    setReports(working);
     if (book === working) {
       return;
     }
 
     const bookId = typeof book === "string" ? book : book.id;
-    loadBookIssues(bookId)
-      .then((v) => setIssues(v))
+    loadBookReports(bookId)
+      .then((v) => setReports(v))
       .catch((newError) => {
-        setIssues([]);
+        setReports([]);
         setError(newError);
       });
   }, [book]);
 
-  return [issues, error];
+  return [reports, error];
 }

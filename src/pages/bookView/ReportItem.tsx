@@ -1,28 +1,28 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import { Issue } from "../../domains/issues/Issue";
+import { Report } from "../../domains/reports/Report";
 import { timeNumberToString } from "../../domains/times/timeConverter";
 
-export interface IssueItemProps {
-  issue: Issue;
+export interface ReportItemProps {
+  report: Report;
 }
 
-export function IssueItem({ issue }: IssueItemProps): JSX.Element {
+export function ReportItem({ report }: ReportItemProps): JSX.Element {
   const quotedUrl = useMemo(() => {
-    return `${issue.url}#:~:text=${encodeURIComponent(issue.quote)}`;
-  }, [issue]);
+    return `${report.url}#:~:text=${encodeURIComponent(report.quote)}`;
+  }, [report]);
   return (
-    <Root className="IssueItem">
+    <Root className="ReportItem">
       <Meta>
-        <time>{timeNumberToString(issue.createdAt)}</time>
-        <code>{issue.ip}</code>
+        <time>{timeNumberToString(report.createdAt)}</time>
+        <code>{report.ip}</code>
       </Meta>
-      <div><a href={quotedUrl}>{issue.url}</a></div>
-      <div>{issue.quotePath}</div>
-      <QuoteBlock cite={issue.url}>
-        <pre>{issue.quote}</pre>
+      <div><a href={quotedUrl}>{report.url}</a></div>
+      <div>{report.quotePath}</div>
+      <QuoteBlock cite={report.url}>
+        <pre>{report.quote}</pre>
       </QuoteBlock>
-      <pre>{issue.message}</pre>
+      <pre>{report.message}</pre>
     </Root>
   );
 }
