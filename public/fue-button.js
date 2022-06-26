@@ -278,6 +278,10 @@ class FueButton extends HTMLElement {
         throw new Error("Attribute `book-id` required");
       }
 
+      if (this.values.message === "" && this.values.quote === "") {
+        throw new Error("Message or quote required");
+      }
+
       const res = await fetch(this.apiUrl, {
         method: "POST",
         body: JSON.stringify(this.values),
