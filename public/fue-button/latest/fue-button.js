@@ -9,11 +9,17 @@ const apiUrl = location.hostname === "localhost"
   ? "http://127.0.0.1:5001/ginpei-fue/us-central1/report"
   : "https://us-central1-ginpei-fue.cloudfunctions.net/report";
 
+const observedAttributes = /** @type {const} */ (["layout"]);
+
 class FueButton extends HTMLElement {
   #watchingSelection = false;
 
   get apiUrl() {
     return apiUrl;
+  }
+
+  get layout() {
+    return this.getAttribute("layout");
   }
 
   /**
@@ -238,9 +244,31 @@ class FueButton extends HTMLElement {
   }
 
   /**
+   * @param {typeof observedAttributes[number]} attrName 
+   * @param {string} oldVal
+   * @param {string} newVal
+   */
+  attributeChangedCallback(attrName, oldVal, newVal) {
+    if (attrName === "layout") {
+      // TODO manage by handling elements under shadow root
+      if (newVal === "right bottom") {
+        this.style.bottom = "8px";
+        this.style.position = "fixed";
+        this.style.right = "8px";
+      } else {
+        this.style.bottom = "";
+        this.style.position = "";
+        this.style.right = "";
+      }
+    }
+  }
+
+  /**
    * @param {MouseEvent} event
    */
   #onClick(event) {
+    console.log('# layout', this.layout);
+
     if (!this.#watchingSelection) {
       this.#watchingSelection = true;
       this.ownerDocument.addEventListener("selectionchange", () =>
@@ -373,6 +401,10 @@ class FueButton extends HTMLElement {
     }
 
     return el;
+  }
+
+  static get observedAttributes() {
+    return ["layout"];
   }
 }
 
