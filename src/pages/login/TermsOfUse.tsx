@@ -18,7 +18,7 @@ export function TermsOfUse({ children }: TermsOfUseProps): JSX.Element {
       <h2>Terms of use</h2>
       <ol>
         <li>Under development</li>
-        <li>You CANNOT user</li>
+        <li>You CANNOT use</li>
       </ol>
       <div>
         <NiceButton disabled={understood} onClick={onClick}>OK</NiceButton>
