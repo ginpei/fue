@@ -5,9 +5,7 @@
  * @typedef {Pick<ReportEnvelope, "message" | "quote">} FormValues
  */
 
-const apiUrl = location.hostname === "localhost"
-  ? "http://127.0.0.1:5001/ginpei-fue/us-central1/report"
-  : "https://us-central1-ginpei-fue.cloudfunctions.net/report";
+const apiUrl = "https://us-central1-ginpei-fue.cloudfunctions.net/report";
 
 const observedAttributes = /** @type {const} */ (["layout"]);
 
@@ -15,7 +13,7 @@ class FueButton extends HTMLElement {
   #watchingSelection = false;
 
   get apiUrl() {
-    return apiUrl;
+    return this.getAttribute("url") || apiUrl;
   }
 
   get layout() {
