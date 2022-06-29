@@ -229,6 +229,9 @@ class FueButton extends HTMLElement {
           </label>
           <small class="hint">その他記録されるもの：URL、IP アドレス、日時</small>
           <button type="submit">送信</button>
+          <small class="hint">
+            <a href="https://fue.ginpei.dev/what" target="_blank">なにこれ？</a>
+          </small>
         </fieldset>
       </form>
     `;

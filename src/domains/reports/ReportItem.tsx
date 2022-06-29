@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import styled from "styled-components";
-import { Report } from "../../domains/reports/Report";
-import { timeNumberToString } from "../../domains/times/timeConverter";
+import { Report } from "./Report";
+import { timeNumberToString } from "../times/timeConverter";
 
 export interface ReportItemProps {
   report: Report;

@@ -7,6 +7,7 @@ import { Book } from "../../domains/books/Book";
 import { useBook } from "../../domains/books/bookHooks";
 import { createReport } from "../../domains/reports/Report";
 import { useBookReports } from "../../domains/reports/reportHooks";
+import { ReportItem } from "../../domains/reports/ReportItem";
 import { BasicLayout } from "../../layouts/basic/BasicLayout";
 import { emulating } from "../../misc/firebase";
 import { working } from "../../misc/working";
@@ -19,7 +20,6 @@ import { VStack } from "../../ui/util/VStack";
 import { bookEditPagePath } from "../bookEdit/bookEditPageMeta";
 import { LoadingPage } from "../loading/LoadingPage";
 import { NotFoundPage } from "../notFound/NotFoundPage";
-import { ReportItem } from "./ReportItem";
 
 export function BookViewPage(): JSX.Element {
   const bookId = useRouterBookId();
