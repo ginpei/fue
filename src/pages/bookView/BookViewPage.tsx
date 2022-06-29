@@ -66,7 +66,7 @@ function CodeExample({ book }: { book: Book }) {
       <code>
         &lt;script async src=&quot;https://fue.ginpei.dev/fue-button/beta-1/fue-button.js&quot;&gt;&lt;/script&gt;
         {"\n"}
-        &lt;fue-button book-id=&quot;{book.id}&quot;&gt;&lt;/fue-button&gt;
+        &lt;fue-button book-id=&quot;{book.id}&quot; layout=&quot;right bottom&quot;&gt;&lt;/fue-button&gt;
       </code>
     </CodePre>
   );
