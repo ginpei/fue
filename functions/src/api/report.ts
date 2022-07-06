@@ -1,12 +1,12 @@
-import { FieldValue, Timestamp } from "firebase-admin/firestore";
-import { logger, Request, Response } from "firebase-functions/v1";
-import { onRequest } from "firebase-functions/v1/https";
-import { ValidationErrorGroup } from "../../../src/domains/errors/ValidationErrorGroup";
-import { assertReport, createReport, Report } from "../../../src/domains/reports/Report";
-import { getFirestore } from "../firebase";
-import { buildErrorLogContent } from "../tools/errors";
-import { HttpError } from "../tools/httpError";
-import { getRequestBody } from "../tools/request";
+import {FieldValue, Timestamp} from "firebase-admin/firestore";
+import {logger, Request, Response} from "firebase-functions/v1";
+import {onRequest} from "firebase-functions/v1/https";
+import {ValidationErrorGroup} from "../../../src/domains/errors/ValidationErrorGroup";
+import {assertReport, createReport, Report} from "../../../src/domains/reports/Report";
+import {getFirestore} from "../firebase";
+import {buildErrorLogContent} from "../tools/errors";
+import {HttpError} from "../tools/httpError";
+import {getRequestBody} from "../tools/request";
 
 export type ReportJson =
   | ReportSuccessJson
